@@ -1,5 +1,4 @@
 from src.dataset_imagem import carregarDatasetImagens
-from src.util import normalizarPorCaracteristica
 from src.network import RedeNeural
 import random
 
@@ -11,10 +10,24 @@ def interpretarSaida(saida):
     else:
         return "triangulo"
 
-
+def treinarRedeParaTestes():
+    X, y = carregarDatasetImagens("data/imagens")
+    temp = list(zip(X, y))
+    random.shuffle(temp)
+    X, y = zip(*temp)
+    X, y = list(X), list(y)
+    n_treino = int(0.8 * len(X))
+    X_treino, y_treino = X[:n_treino], y[:n_treino]
+    rede = RedeNeural([100, 15, 3], 0.3)
+    for _ in range(400):
+        rede.treinar(X_treino, y_treino)
+    print(f"\nRede treinada com {len(X_treino)} imagens de treino.\n")
+    return rede
 
 def treinarRedeImagens():
     
+    from src.limitrofes import testarLimitrofes
+
     X, y = carregarDatasetImagens("data/imagens")
     temp = list(zip(X, y))
     random.shuffle(temp)
@@ -56,6 +69,10 @@ def treinarRedeImagens():
         print("Desempenho razoável, mas pode melhorar com mais dados ou mais treino.")
     else:
         print("A rede ainda está aprendendo. Experimente aumentar as épocas ou gerar mais exemplos.")
+
+    
+    print("\nAgora, testando novamente nos casos limitrofes com a rede treinada...")
+    testarLimitrofes(rede, interpretarSaida)
 
     resposta = input("\nDeseja rodar o teste novamente? (s/n): ").strip().lower()
     if resposta == 's':

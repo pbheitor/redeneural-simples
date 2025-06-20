@@ -9,6 +9,7 @@ limitrofes_map = [
     ('triangulo_quadrado_2.png', 'triangulo'),
     ('triangulo_quadrado_3.png', 'triangulo'),
     ('circulo_triangulo_1.png', 'circulo'),
+    
 ]
 
 src_folder = os.path.join('data', 'imagens', 'limitrofe')

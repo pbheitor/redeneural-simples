@@ -1,15 +1,21 @@
-from src.treinar_imagem import treinarRedeImagens
-from src.limitrofes import gerarImagensLimitrofes, testarLimitrofes
+from src.treinar_imagem import treinarRedeParaTestes, treinarRedeImagens, interpretarSaida
+from src.limitrofes import testarLimitrofes
+from src.network import RedeNeural
 
 def executarTeste():
-    # Primeiro, testes com imagens limitrofes
-    print("Primeiro, os testes limitrofes...\n")
-    gerarImagensLimitrofes()  # Gerar as imagens limitrofes
-    testarLimitrofes()         # Testar as imagens limitrofes
+    print("Primeiro, teste com rede NÃO treinada (só pra comparar)...")
+    rede_vazia = RedeNeural([100, 15, 3], 0.3)
+    testarLimitrofes(rede_vazia, interpretarSaida)
+    
+    print("\nAgora, treino normal + testes padrões e limitrofes COM rede treinada...\n")
+    
+    treinarRedeImagens()
 
-    # Agora, testes com formas geométricas normais
-    print("\nAgora, o teste normal...\n")
-    treinarRedeImagens()      # Treinamento da rede e avaliação das imagens normais
+    
+    rede_treinada = treinarRedeParaTestes()  
+    testarLimitrofes(rede_treinada, interpretarSaida)
+
+    print("\nTestes completos.")
 
 if __name__ == "__main__":
-    executarTeste()  # Chama a função que executa os testes
+    executarTeste()
