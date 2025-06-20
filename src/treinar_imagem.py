@@ -33,7 +33,7 @@ def treinarRedeImagens():
     print("O programa irá mostrar o esperado, o predito e se a rede acertou cada imagem de teste.\n")
 
     rede = RedeNeural([100, 15, 3], 0.3)
-    for _ in range(200):
+    for _ in range(400):
         rede.treinar(X_treino, y_treino)
 
     corretos = 0
